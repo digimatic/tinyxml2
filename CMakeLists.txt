@@ -48,10 +48,16 @@ endif(MSVC)
 # Add targets
 option(BUILD_SHARED_LIBS "build shared or static libraries" ON)
 add_library(tinyxml2 tinyxml2.cpp tinyxml2.h)
-set_target_properties(tinyxml2 PROPERTIES
-        COMPILE_DEFINITIONS "TINYXML2_EXPORT"
-	VERSION "${GENERIC_LIB_VERSION}"
-	SOVERSION "${GENERIC_LIB_SOVERSION}")
+if(BUILD_SHARED_LIB)
+	set_target_properties(tinyxml2 PROPERTIES
+	        COMPILE_DEFINITIONS "TINYXML2_EXPORT"
+		VERSION "${GENERIC_LIB_VERSION}"
+		SOVERSION "${GENERIC_LIB_SOVERSION}")
+else()
+	set_target_properties(tinyxml2 PROPERTIES
+		VERSION "${GENERIC_LIB_VERSION}"
+		SOVERSION "${GENERIC_LIB_SOVERSION}")
+endif()
 
 add_executable(xmltest xmltest.cpp)
 add_dependencies(xmltest tinyxml2)
